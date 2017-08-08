@@ -1,15 +1,10 @@
 package com.probum.fallintravel;
 
-import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Color;
+
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcel;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
@@ -20,17 +15,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
-import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
-import android.text.style.StyleSpan;
-import android.text.style.TypefaceSpan;
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tsengvn.typekit.TypekitContextWrapper;
@@ -46,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
     SearchView searchView;
     Typeface typeface;
 
+    static String ServiceKey="a4LnEk87YeAkpv6AV58l%2Bkb4bCJs6rW6TRx%2BbYqfNQ7LxOMzCb%2BwU5X9Rjxjk32Yvx6TkihtIUkeL3iVRILqDA%3D%3D";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +48,10 @@ public class MainActivity extends AppCompatActivity {
         viewPager=(ViewPager)findViewById(R.id.pager);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+
+
 
         typeface = Typeface.createFromAsset(getAssets(),"ssanaiL.ttf");
 
@@ -85,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-    }
+    }//onCreate
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -128,10 +123,13 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        Toast.makeText(this, "aaaa", Toast.LENGTH_SHORT).show();
 
         return super.onOptionsItemSelected(item);
     }
 
-
+    public void clickChoiceCity(View v){
+        Toast.makeText(this, "지역 선택", Toast.LENGTH_SHORT).show();
+    }
 
 }
