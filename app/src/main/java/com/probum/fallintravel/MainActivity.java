@@ -123,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        Toast.makeText(this, "aaaa", Toast.LENGTH_SHORT).show();
 
         return super.onOptionsItemSelected(item);
     }
