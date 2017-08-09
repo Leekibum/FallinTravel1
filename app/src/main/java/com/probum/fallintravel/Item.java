@@ -6,6 +6,8 @@ public class Item {
     String title;
     String firstimage;
     String time;
+    String choicename;
+    String choicecode;
 
     public Item(String title, String firstimage,String time) {
         this.title = title;
@@ -17,4 +19,5 @@ public class Item {
         this.title = title;
         this.firstimage = firstimage;
     }
+
 }

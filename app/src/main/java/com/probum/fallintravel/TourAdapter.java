@@ -34,13 +34,11 @@ public class TourAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final ViewHolder myholder = (ViewHolder) holder;
 
-
-
         myholder.tv_title.setText(items.get(position).title);
         if (items.get(position).time==null) myholder.tv_time.setVisibility(View.GONE);
 
-        if (items.get(position).firstimage == null) {    //firstimage가 int 면 0
-            myholder.img.setVisibility(View.INVISIBLE);//  나중에 이미지가 없어요 같은 이미지로 변경하기
+        if (items.get(position).firstimage.equals("noimage")) {
+            Glide.with(context).load(R.drawable.noimageavailable).into(myholder.img);//  나중에 이미지가 없어요 같은 이미지로 변경하기
         } else {
             Glide.with(context).load(items.get(position).firstimage).into(myholder.img);
         }
@@ -73,7 +71,7 @@ public class TourAdapter extends RecyclerView.Adapter {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, "gg", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Go to details Activity", Toast.LENGTH_SHORT).show();
                 }
             });
         }

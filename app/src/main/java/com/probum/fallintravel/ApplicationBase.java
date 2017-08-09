@@ -17,8 +17,8 @@ public class ApplicationBase extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        setDefaultFont(this, "DEFAULT", "ssanaiL.ttf");
-        setDefaultFont(this, "SANS_SERIF", "ssanaiL.ttf");
+//        setDefaultFont(this, "DEFAULT", "ssanaiL.ttf");
+//        setDefaultFont(this, "SANS_SERIF", "ssanaiL.ttf");
         setDefaultFont(this, "SERIF", "ssanaiL.ttf");
     }
 

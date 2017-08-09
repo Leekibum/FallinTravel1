@@ -1,9 +1,12 @@
 package com.probum.fallintravel;
 
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
@@ -20,9 +23,8 @@ import android.text.Spanned;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
-
-import com.tsengvn.typekit.TypekitContextWrapper;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,8 +36,7 @@ public class MainActivity extends AppCompatActivity {
     FragmentManager fragmentManager;
     SearchView searchView;
     Typeface typeface;
-
-    static String ServiceKey="a4LnEk87YeAkpv6AV58l%2Bkb4bCJs6rW6TRx%2BbYqfNQ7LxOMzCb%2BwU5X9Rjxjk32Yvx6TkihtIUkeL3iVRILqDA%3D%3D";
+    TextView cityname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +48,8 @@ public class MainActivity extends AppCompatActivity {
         tabLayout=(TabLayout)findViewById(R.id.layout_tab);
         viewPager=(ViewPager)findViewById(R.id.pager);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        cityname=(TextView)findViewById(R.id.cityname);
         setSupportActionBar(toolbar);
-
-
-
-
 
         typeface = Typeface.createFromAsset(getAssets(),"ssanaiL.ttf");
 
@@ -78,9 +76,11 @@ public class MainActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT>=21){ //버전 21 이상은 위에 상태바 색 변경경
            getWindow().setStatusBarColor(0xff55ccc0);
         }
+        cityname.setText(G.cityname + "   " +G.sigunguName);
 
 
     }//onCreate
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -123,13 +123,27 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        Toast.makeText(this, "aaaa", Toast.LENGTH_SHORT).show();
-
         return super.onOptionsItemSelected(item);
     }
 
     public void clickChoiceCity(View v){
-        Toast.makeText(this, "지역 선택", Toast.LENGTH_SHORT).show();
+
+        Intent intent=new Intent(this,ChoiceCityActivity.class);
+        startActivityForResult(intent,22);
+
+//        Toast.makeText(this, "지역 선택", Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        cityname.setText(G.cityname + "   " +G.sigunguName);
+
+
+
+        pageAdapter.tourFragment.items.clear();
+        pageAdapter.tourFragment.readtour();
+
+        pageAdapter.locationFragment.items.clear();
+        pageAdapter.locationFragment.readLocation();
+    }
 }
