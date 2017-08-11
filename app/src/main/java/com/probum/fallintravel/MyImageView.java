@@ -23,7 +23,6 @@ public class MyImageView extends android.support.v7.widget.AppCompatImageView {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) { //모든 View에 있는 메소드
-        Log.e("ImageViewSpec",""+widthMeasureSpec + " ,    " +heightMeasureSpec);
         heightMeasureSpec=widthMeasureSpec;
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }

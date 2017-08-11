@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,12 +29,18 @@ public class LocationFragment extends Fragment {
     RecyclerView recyclerView;
     LocationAdapter adapter;
     RequestQueue requestQueue;
+    int numOfRows;
+    int pageNo;
+
+//    numOfRows=12&pageNo=1
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestQueue= Volley.newRequestQueue(getActivity());
+        numOfRows=12;
+        pageNo=1;
     }
 
     @Override
@@ -50,11 +57,25 @@ public class LocationFragment extends Fragment {
 
         readLocation();
 
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int lastVisibleItemPostion=((GridLayoutManager)recyclerView.getLayoutManager()).findLastCompletelyVisibleItemPosition();
+                int itemTotalCount= recyclerView.getAdapter().getItemCount()-1;
+                if (lastVisibleItemPostion==itemTotalCount){
+                    pageNo+=1;
+                    readLocation();
+                }
+            }
+        });
+
         return view;
     }
 
     void readLocation(){
-        String url="http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList?ServiceKey="+ G.serviceKey+"&contentTypeId=&areaCode="+G.citycode+"&sigunguCode="+G.sigunguCode+"&cat1=&cat2=&cat3=&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=B&numOfRows=12&pageNo=1&_type=json";
+        String url="http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList?ServiceKey="+ G.serviceKey+"&contentTypeId=&areaCode="+G.citycode+"&sigunguCode="+G.sigunguCode+"&cat1=&cat2=&cat3=&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=C&numOfRows="+numOfRows+"&pageNo="+pageNo+"&_type=json";
+        Log.i("UrlUrlURl",url);
         JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 
             @Override
@@ -70,9 +91,11 @@ public class LocationFragment extends Fragment {
                         obj=jsonArray.getJSONObject(i);
 
                         String title=obj.getString("title");
+                        String contentid=obj.getString("contentid");
                         String firstimage="noimage";
+                        String contenttypeid=obj.getString("contenttypeid");
                         if (obj.has("firstimage")) firstimage=obj.getString("firstimage");
-                        items.add(new Item(title,firstimage));
+                        items.add(new Item(title,firstimage,contenttypeid,contentid));
                         adapter.notifyDataSetChanged();
                     }
 
@@ -87,5 +110,8 @@ public class LocationFragment extends Fragment {
         requestQueue.add(jsonObjectRequest);
     }
 
+    public void setValue() {
+        pageNo=1;
+    }
 
 }

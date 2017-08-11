@@ -15,7 +15,9 @@ public class G {
     static String citycode="1";
     static String sigunguName="시군구 선택";
     static String sigunguCode="1";
-
+    public final static int TOUR=12;
+    public final static int FESTIVAL=15;
+    public final static int LOCATION=0;
 
 
 }

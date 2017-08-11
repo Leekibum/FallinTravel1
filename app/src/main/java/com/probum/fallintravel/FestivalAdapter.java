@@ -1,6 +1,7 @@
 package com.probum.fallintravel;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,7 +36,14 @@ public class FestivalAdapter extends RecyclerView.Adapter {
         ViewHolder holder1=(ViewHolder)holder;
 
         holder1.tvtitle.setText(items.get(position).title);
+        holder1.tvtitle.setTag(items.get(position).contentid);
         holder1.tvtime.setText(items.get(position).time);
+
+        String time=items.get(position).time;
+
+//        20170412144658
+//        00004477
+//        String time1=time.substring(0,4);
 
         if (items.get(position).firstimage.equals("noimage")) {
             Glide.with(context).load(R.drawable.noimageavailable).into(holder1.img);//  나중에 이미지가 없어요 같은 이미지로 변경하기
@@ -64,7 +72,10 @@ public class FestivalAdapter extends RecyclerView.Adapter {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, tvtitle.getText()+"", Toast.LENGTH_SHORT).show();
+                    Intent intent=new Intent(context,DetailActivity.class);
+                    intent.putExtra("contentid",tvtitle.getTag()+"");
+                    intent.putExtra("typecode",G.FESTIVAL);
+                    context.startActivity(intent);
                 }
             });
         }

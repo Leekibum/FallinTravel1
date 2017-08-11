@@ -11,7 +11,6 @@ import android.util.Log;
 
 public class MyTextView extends android.support.v7.widget.AppCompatTextView {
 
-    TourFragment tourFragment;
 
     public MyTextView(Context context) {
         super(context);

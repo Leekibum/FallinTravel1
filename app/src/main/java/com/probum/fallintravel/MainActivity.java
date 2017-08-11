@@ -138,12 +138,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         cityname.setText(G.cityname + "   " +G.sigunguName);
 
-
+        pageAdapter.festivalFragment.items.clear();
+        if (pageAdapter.festivalFragment.requestQueue!=null){pageAdapter.festivalFragment.setValue();pageAdapter.festivalFragment.readfestival();}
 
         pageAdapter.tourFragment.items.clear();
-        pageAdapter.tourFragment.readtour();
+        if (pageAdapter.tourFragment.requestQueue!=null){pageAdapter.tourFragment.setValue(); pageAdapter.tourFragment.readtour();}
 
         pageAdapter.locationFragment.items.clear();
-        pageAdapter.locationFragment.readLocation();
+       if (pageAdapter.locationFragment.requestQueue!=null){pageAdapter.locationFragment.setValue(); pageAdapter.locationFragment.readLocation();}
     }
 }

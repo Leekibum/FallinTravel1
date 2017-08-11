@@ -1,6 +1,7 @@
 package com.probum.fallintravel;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +36,9 @@ public class TourAdapter extends RecyclerView.Adapter {
         final ViewHolder myholder = (ViewHolder) holder;
 
         myholder.tv_title.setText(items.get(position).title);
+        myholder.tv_title.setTag(items.get(position).contentid);
+
+
         if (items.get(position).time==null) myholder.tv_time.setVisibility(View.GONE);
 
         if (items.get(position).firstimage.equals("noimage")) {
@@ -71,7 +75,12 @@ public class TourAdapter extends RecyclerView.Adapter {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, "Go to details Activity", Toast.LENGTH_SHORT).show();
+                    Intent intent=new Intent(context,DetailActivity.class);
+                    intent.putExtra("contentid",tv_title.getTag()+"");
+                    intent.putExtra("typecode",G.TOUR);
+                    context.startActivity(intent);
+
+
                 }
             });
         }

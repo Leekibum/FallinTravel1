@@ -1,6 +1,7 @@
 package com.probum.fallintravel;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,7 +40,8 @@ public class LocationAdapter extends RecyclerView.Adapter {
         final ViewHolder myholder = (ViewHolder) holder;
 
         myholder.tv_title.setText(items.get(position).title);
-        if (items.get(position).time==null) myholder.tv_time.setVisibility(View.GONE);
+        myholder.tv_title.setTag(items.get(position).contentid);
+        myholder.tv_time.setVisibility(View.GONE);
 
         if (items.get(position).firstimage.equals("noimage")) {
             Glide.with(context).load(R.drawable.noimageavailable).into(myholder.img);//  나중에 이미지가 없어요 같은 이미지로 변경하기
@@ -75,8 +77,11 @@ public class LocationAdapter extends RecyclerView.Adapter {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, "Go to details Activity", Toast.LENGTH_SHORT).show();
-                }
+                    Intent intent=new Intent(context,DetailActivity.class);
+                    intent.putExtra("contentid",tv_title.getTag()+"");
+                    intent.putExtra("typecode",G.LOCATION);
+                    intent.putExtra("contenttypeid",tv_time.getText().toString());
+                    context.startActivity(intent);                }
             });
         }
     }
