@@ -3,6 +3,7 @@ package com.probum.fallintravel;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +20,12 @@ public class FestivalAdapter extends RecyclerView.Adapter {
 
     Context context;
     ArrayList<Item> items;
+    ArrayList<Item> times;
 
-    public FestivalAdapter(Context context, ArrayList<Item> items) {
+    public FestivalAdapter(Context context, ArrayList<Item> items,ArrayList<Item> times) {
         this.context = context;
         this.items = items;
+        this.times=times;
     }
 
     @Override
@@ -37,12 +40,14 @@ public class FestivalAdapter extends RecyclerView.Adapter {
 
         holder1.tvtitle.setText(items.get(position).title);
         holder1.tvtitle.setTag(items.get(position).contentid);
-        holder1.tvtime.setText(items.get(position).time);
+        if (items.size()==times.size() && items.get(position).contentid.equals(times.get(position).contentid)) {
+            holder1.tvtime.setText(times.get(position).time);
+        }
 
-        String time=items.get(position).time;
+        holder1.tvtime.setTag(items.get(position).contenttypeid);
 
-//        20170412144658
-//        00004477
+
+
 //        String time1=time.substring(0,4);
 
         if (items.get(position).firstimage.equals("noimage")) {
@@ -50,6 +55,7 @@ public class FestivalAdapter extends RecyclerView.Adapter {
         } else {
             Glide.with(context).load(items.get(position).firstimage).into(holder1.img);
         }
+
 
     }
 
@@ -74,7 +80,7 @@ public class FestivalAdapter extends RecyclerView.Adapter {
                 public void onClick(View v) {
                     Intent intent=new Intent(context,DetailActivity.class);
                     intent.putExtra("contentid",tvtitle.getTag()+"");
-                    intent.putExtra("typecode",G.FESTIVAL);
+                    intent.putExtra("contenttypeid",tvtime.getTag()+"");
                     context.startActivity(intent);
                 }
             });

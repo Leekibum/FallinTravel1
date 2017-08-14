@@ -95,7 +95,7 @@ public class LocationFragment extends Fragment {
                         String firstimage="noimage";
                         String contenttypeid=obj.getString("contenttypeid");
                         if (obj.has("firstimage")) firstimage=obj.getString("firstimage");
-                        items.add(new Item(title,firstimage,contenttypeid,contentid));
+                        items.add(new Item(title,firstimage,contentid,contenttypeid));
                         adapter.notifyDataSetChanged();
                     }
 

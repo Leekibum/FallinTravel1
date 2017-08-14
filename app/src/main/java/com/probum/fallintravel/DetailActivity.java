@@ -85,9 +85,7 @@ public class DetailActivity extends AppCompatActivity {
 
         Intent intent=getIntent();
         contentid=intent.getStringExtra("contentid");
-        typecode=intent.getIntExtra("typecode",0);
         contenttypeid=intent.getStringExtra("contenttypeid");
-//        if (contenttypeid!=null)typecode=Integer.parseInt(contenttypeid);
 
         intro9.setVisibility(View.GONE);
 
@@ -125,8 +123,6 @@ public class DetailActivity extends AppCompatActivity {
                     object=object.getJSONObject("item");
 
                     tvtitle.setText(object.getString("title"));
-                    String title=object.getString("title");
-                    Log.i("title",title + "우우우우");
                     tvaddr.setText("주소 : "+object.getString("addr1")+" "+object.getString("addr2"));
                     tvoverview.setText(object.getString("overview"));
 
@@ -150,6 +146,7 @@ public class DetailActivity extends AppCompatActivity {
                     if (object.has("firstimage2"))imgs.add(object.getString("firstimage2"));
 
                     pageIndicatorView.setCount(imgs.size());
+
                     viewPager.setAdapter(adapter);
 
                 } catch (JSONException e) {
@@ -166,9 +163,9 @@ public class DetailActivity extends AppCompatActivity {
         requestQueue.add(jsonObjectRequest);
     }
     void readIntro(){
-        String url="http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailIntro?ServiceKey="+G.serviceKey+"&contentTypeId="+typecode+"&contentId="+contentid+"&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&introYN=Y&_type=json";
+        String url="http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailIntro?ServiceKey="+G.serviceKey+"&contentTypeId="+contenttypeid+"&contentId="+contentid+"&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&introYN=Y&_type=json";
 
-        Log.e("url intro",url);
+        Log.i("url intro",url);
         JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -178,7 +175,7 @@ public class DetailActivity extends AppCompatActivity {
                     object=object.getJSONObject("items");
                     object=object.getJSONObject("item");
 
-                    if (typecode==G.FESTIVAL){
+                    if (contenttypeid.equals(G.festival)){
                         intro1tv2.setText(object.getString("sponsor1"));
                         intro2tv2.setText(object.getString("sponsor1tel"));
                         intro3tv2.setText(object.getString("eventstartdate")+"  ~  "+object.getString("eventenddate"));
@@ -187,6 +184,14 @@ public class DetailActivity extends AppCompatActivity {
                         intro6tv2.setText(object.getString("agelimit"));
                         intro7tv2.setText(object.getString("usetimefestival"));
                         intro8tv2.setText(object.getString(""));
+                    }
+
+                    if (contenttypeid.equals(G.TOUR)){
+                        if (object.has("expagerange")){intro1tv1.setText("체험 가능 연령 : "); intro1tv2.setText(object.getString("expagerange"));} else intro1.setVisibility(View.GONE);
+                        if (object.has("expguide") && !object.getString("expguide").equals("")){intro2tv1.setText("체험 안내 : "); intro1tv2.setText(object.getString("expguide"));}else intro2.setVisibility(View.GONE);
+                        if (object.has("usetime")){intro3tv1.setText("이용 시간 : "); intro3tv2.setText(object.getString("usetime"));}else intro3.setVisibility(View.GONE);
+                        if (object.has("restdate")){intro4tv1.setText("쉬는날 : "); intro4tv2.setText(object.getString("restdate"));}else intro4.setVisibility(View.GONE);
+                        if (object.has("infocenter")){intro5tv1.setText("문의 및 안내 : "); intro5tv2.setText(object.getString("infocenter"));}else intro5.setVisibility(View.GONE);
                     }
 
                 } catch (JSONException e) {

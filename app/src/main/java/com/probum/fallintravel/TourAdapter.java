@@ -37,6 +37,7 @@ public class TourAdapter extends RecyclerView.Adapter {
 
         myholder.tv_title.setText(items.get(position).title);
         myholder.tv_title.setTag(items.get(position).contentid);
+        myholder.tv_time.setTag(items.get(position).contenttypeid);
 
 
         if (items.get(position).time==null) myholder.tv_time.setVisibility(View.GONE);
@@ -77,7 +78,7 @@ public class TourAdapter extends RecyclerView.Adapter {
                 public void onClick(View v) {
                     Intent intent=new Intent(context,DetailActivity.class);
                     intent.putExtra("contentid",tv_title.getTag()+"");
-                    intent.putExtra("typecode",G.TOUR);
+                    intent.putExtra("contenttypeid",tv_time.getTag()+"");
                     context.startActivity(intent);
 
 

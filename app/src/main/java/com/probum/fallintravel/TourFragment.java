@@ -92,9 +92,10 @@ public class TourFragment extends Fragment {
                         String title=obj.getString("title");
                         String contentid=obj.getString("contentid");
                         String firstimage="noimage";
+                        String contenttypeid=obj.getString("contenttypeid");
                         if (obj.has("firstimage")) firstimage=obj.getString("firstimage");
 
-                        items.add(new Item(title,firstimage,contentid));
+                        items.add(new Item(title,firstimage,contentid,contenttypeid));
                         adapter.notifyDataSetChanged();
                     }
 

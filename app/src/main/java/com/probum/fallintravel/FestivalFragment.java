@@ -32,6 +32,7 @@ import java.util.ArrayList;
 public class FestivalFragment extends Fragment {
 
     ArrayList<Item> items = new ArrayList<>();
+    ArrayList<Item> times=new ArrayList<>();
     RecyclerView recyclerView;
     FestivalAdapter adapter;
     RequestQueue requestQueue;
@@ -54,7 +55,7 @@ public class FestivalFragment extends Fragment {
 
         RecyclerView.LayoutManager manager = new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(manager);
-        adapter = new FestivalAdapter(getActivity(), items);
+        adapter = new FestivalAdapter(getActivity(), items,times);
         recyclerView.setAdapter(adapter);
 
         readfestival();
@@ -77,6 +78,9 @@ public class FestivalFragment extends Fragment {
 
     void readfestival() {
         String url = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList?ServiceKey=" + G.serviceKey + "&contentTypeId=15&areaCode=" + G.citycode + "&sigunguCode=" + G.sigunguCode + "&cat1=&cat2=&cat3=&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=C&numOfRows=" + numOfRows + "&pageNo=" + pageNo + "&_type=json";
+
+        Log.i("url Festival URl",url);
+
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 
             @Override
@@ -94,11 +98,12 @@ public class FestivalFragment extends Fragment {
 
                         String title = obj.getString("title");
                         String contentid = obj.getString("contentid");
-//                        String time=readtime(contentid);
+                        readtime(contentid);
+                        String contenttypeid=obj.getString("contenttypeid");
                         String firstimage = "noimage";
                         if (obj.has("firstimage")) firstimage = obj.getString("firstimage");
 
-                        items.add(new Item(title, firstimage,contentid));
+                        items.add(new Item(title, firstimage,contentid,contenttypeid));
                         adapter.notifyDataSetChanged();
                     }
 
@@ -119,8 +124,7 @@ public class FestivalFragment extends Fragment {
         pageNo=1;
     }
 
-    String readtime(String contentid){
-        final String[] time = new String[1];
+    void readtime(final String contentid){
         String url="http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailIntro?ServiceKey="+G.serviceKey+"&contentTypeId=15&contentId="+contentid+"&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&introYN=Y&_type=json";
 
         JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -134,8 +138,8 @@ public class FestivalFragment extends Fragment {
 
                     String eventstartdate=object.getString("eventstartdate");
                     String eventenddate=object.getString("eventenddate");
-                    time[0] =eventstartdate+eventenddate;
-                    Toast.makeText(getActivity(), time[0].toString(), Toast.LENGTH_SHORT).show();
+                    times.add(new Item(eventstartdate+eventenddate,contentid));
+                    adapter.notifyDataSetChanged();
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -149,7 +153,6 @@ public class FestivalFragment extends Fragment {
             }
         });
         requestQueue.add(jsonObjectRequest);
-        return time[0];
     }
 
 }

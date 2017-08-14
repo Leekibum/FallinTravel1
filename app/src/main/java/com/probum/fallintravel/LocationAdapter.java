@@ -41,6 +41,7 @@ public class LocationAdapter extends RecyclerView.Adapter {
 
         myholder.tv_title.setText(items.get(position).title);
         myholder.tv_title.setTag(items.get(position).contentid);
+        myholder.tv_title.setTag(items.get(position).contenttypeid);
         myholder.tv_time.setVisibility(View.GONE);
 
         if (items.get(position).firstimage.equals("noimage")) {
@@ -79,8 +80,7 @@ public class LocationAdapter extends RecyclerView.Adapter {
                 public void onClick(View v) {
                     Intent intent=new Intent(context,DetailActivity.class);
                     intent.putExtra("contentid",tv_title.getTag()+"");
-                    intent.putExtra("typecode",G.LOCATION);
-                    intent.putExtra("contenttypeid",tv_time.getText().toString());
+                    intent.putExtra("contenttypeid",tv_time.getTag()+"");
                     context.startActivity(intent);                }
             });
         }
